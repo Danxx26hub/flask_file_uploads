@@ -1,0 +1,16 @@
+env
+env/
+app/__pycache__/*
+.env
+*_myfile.txt
+*_phone.txt
+myfile.txt
+phone.txt
+*.pyc
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.DS_Store
+app.db
