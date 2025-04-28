@@ -15,4 +15,4 @@ phone.txt
 *.DS_Store
 app.db
 !instance/.gitkeep
-!upload/.gitkeep
+!uploads/.gitkeep
