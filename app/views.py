@@ -11,18 +11,16 @@ from datetime import datetime
 db.init_app(app)
 
 
-@app.route("/upload", methods=["POST"])
+@app.route("/upload", methods=["POST", "PUT"])
 def upload():
     """Upload a file pipe-delimited file and save its contents to a database."""
-    print(request.files)
+    print(request.headers)
     data_wrapper = []
     current_data = check_db()
-    headers = DataRow.__table__.columns.keys()[1:]
-    collect_data = namedtuple("collect_data", headers)
+    columns = DataRow.__table__.columns.keys()[1:]
+    collect_data = namedtuple("collect_data", columns)
     if "file" not in request.files:
-
         return jsonify({"error": "No file part"}), 400
-
     file = request.files["file"]
     if file.filename == "":
         return jsonify({"error": "No selected file"}), 400
@@ -71,6 +69,28 @@ def upload():
         return jsonify({"error": "No file uploaded"}), 500
 
 
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    print(request.method)
+    print(request.form)
+    if request.method == "POST":
+        username = request.form.get("email", "nothing Entered")
+        password = request.form.get("password", "nothing Entered")
+        print(f"Username: {username}")
+        print(f"Password: {password}")
+        return "Data received"
+    else:
+        return render_template("login.html")
+
+
+@app.route("/success", methods=["POST", "GET"])
+def success():
+    """Return a success message."""
+    print(request.method)
+    req = request.headers
+    return f"this is success .. \n {req} \n"
+
+
 @app.route("/view_db", methods=["GET"])
 def view_db():
     """View the contents of the database."""
@@ -79,6 +99,7 @@ def view_db():
     data = [row.__dict__ for row in results]
     for row in data:
         row.pop("_sa_instance_state", None)
+        print(row)
     return render_template("view_db.html", data=data), 200
 
 

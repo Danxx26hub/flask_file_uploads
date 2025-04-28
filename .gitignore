@@ -14,3 +14,5 @@ phone.txt
 *.swo
 *.DS_Store
 app.db
+!instance/.gitkeep
+!upload/.gitkeep
